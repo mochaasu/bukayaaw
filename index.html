@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bukaajaaa</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(45deg, #ff9a9e, #fecfef, #fecfef, #a8edea, #fed6e3, #d299c2, #fef9d7, #a8edea); /* Gradient warna-warni pastel */
+            background-size: 400% 400%;
+            animation: gradientShift 10s ease infinite; /* Animasi background bergerak */
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            position: relative;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        /* Animasi balon lucu */
+        .balloon {
+            position: absolute;
+            width: 50px;
+            height: 70px;
+            background-color: #ff8cc5;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.8;
+        }
+        .balloon:nth-child(odd) {
+            background-color: #537c8c;
+        }
+        .balloon:nth-child(3n) {
+            background-color: #21ff97;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            50% { transform: translateY(50vh) rotate(180deg); }
+            100% { transform: translateY(-10vh) rotate(360deg); }
+        }
+        /* Animasi konfeti jatuh */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff4500;
+            animation: fall 5s linear infinite;
+            opacity: 0.7;
+        }
+        .confetti:nth-child(odd) {
+            background-color: #d086e7;
+        }
+        .confetti:nth-child(3n) {
+            background-color: #30e3a2;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(360deg); }
+        }
+        #cake-container {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 10;
+        }
+        #cake {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle at 30% 30%, #ff5bec, #cc0000); /* Gradien untuk efek realistis */
+            border: none;
+            border-radius: 50%; /* Membuat bulat */
+            cursor: pointer;
+            position: relative;
+            transform: perspective(500px) rotateY(-15deg); /* Membuat efek 3D dari samping */
+            transition: transform 0.2s, box-shadow 0.2s;
+            animation: wiggle 2s ease-in-out infinite; /* Animasi lucu pada tombol */
+        }
+        #cake::before {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 10px;
+            width: 180px;
+            height: 20px;
+            background-color: #ffffff; /* Abu-abu untuk body bawah */
+            border-radius: 50%;
+            transform: perspective(500px) rotateY(-15deg) rotateX(90deg);
+            opacity: 0.5;
+        }
+        @keyframes wiggle {
+            0%, 100% { transform: perspective(500px) rotateY(-15deg) rotate(0deg); }
+            25% { transform: perspective(500px) rotateY(-15deg) rotate(-5deg); }
+            75% { transform: perspective(500px) rotateY(-15deg) rotate(5deg); }
+        }
+        #cake:hover {
+            transform: perspective(500px) rotateY(-15deg) scale(1.05);
+        }
+        #cake:active {
+            animation: press 0.1s ease-out; /* Animasi saat diklik */
+        }
+        @keyframes press {
+            0% { transform: perspective(500px) rotateY(-15deg) scale(1); }
+            50% { transform: perspective(500px) rotateY(-15deg) scale(0.95); }
+            100% { transform: perspective(500px) rotateY(-15deg) scale(1); }
+        }
+        #cake.explode {
+            animation: extinguish 1s ease-out forwards; /* Animasi padam tombol */
+        }
+        @keyframes extinguish {
+            0% { transform: perspective(500px) rotateY(-15deg) scale(1); opacity: 1; }
+            50% { transform: perspective(500px) rotateY(-15deg) scale(1.2); opacity: 0.8; }
+            100% { transform: perspective(500px) rotateY(-15deg) scale(0.5); opacity: 0; }
+        }
+        #click-indicator {
+            margin-top: 20px;
+            font-size: 18px;
+            color: rgb(255, 254, 254);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-weight: bold;
+        }
+        #message {
+            display: none;
+            position: fixed; /* Mengubah ke fixed untuk memastikan positioning yang benar */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            max-width: 600px;
+            z-index: 30; /* Meningkatkan z-index untuk memastikan terlihat di atas elemen lain */
+            animation: bounceIn 1s ease-out; /* Animasi muncul pesan */
+        }
+        @keyframes bounceIn {
+            0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+        #message h1 {
+            color: #ff69b4;
+            animation: colorChange 3s infinite; /* Animasi warna teks */
+        }
+        @keyframes colorChange {
+            0%, 100% { color: #ff69b4; }
+            33% { color: #87ceeb; }
+            66% { color: #ffd700; }
+        }
+        #message p {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+        #fixed-message {
+            font-weight: bold;
+            color: #d2691e;
+            margin-top: 20px;
+        }
+        #interactive-section {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            max-width: 600px;
+            z-index: 40;
+            animation: slideIn 0.5s ease-out;
+        }
+        @keyframes slideIn {
+            0% { transform: translate(-50%, -60%) scale(0.8); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+        #interactive-section h2 {
+            color: #ff69b4;
+        }
+        #interactive-section p {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        button {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #ff1493;
+        }
+        audio {
+            display: none;
+        }
+        .rose {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            background-image: url('https://png.pngtree.com/png-clipart/20220120/original/pngtree-red-rose-flower-png-image_7158585.png');
+            background-size: cover;
+            background-position: center;
+            animation: floatRose 3s ease-in-out infinite;
+        }
+        @keyframes floatRose {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .happy-cat-gif {
+            width: 300px;
+            height: 200px;
+            margin: 10px auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Balon animasi -->
+    <div class="balloon" style="left: 10%; animation-delay: 0s;"></div>
+    <div class="balloon" style="left: 20%; animation-delay: 1s;"></div>
+    <div class="balloon" style="left: 30%; animation-delay: 2s;"></div>
+    <div class="balloon" style="left: 40%; animation-delay: 3s;"></div>
+    <div class="balloon" style="left: 50%; animation-delay: 4s;"></div>
+    <div class="balloon" style="left: 60%; animation-delay: 5s;"></div>
+    <div class="balloon" style="left: 70%; animation-delay: 6s;"></div>
+    <div class="balloon" style="left: 80%; animation-delay: 7s;"></div>
+    <div class="balloon" style="left: 90%; animation-delay: 8s;"></div>
+
+    <!-- Konfeti animasi -->
+    <div class="confetti" style="left: 5%; animation-delay: 0s;"></div>
+    <div class="confetti" style="left: 15%; animation-delay: 0.5s;"></div>
+    <div class="confetti" style="left: 25%; animation-delay: 1s;"></div>
+    <div class="confetti" style="left: 35%; animation-delay: 1.5s;"></div>
+    <div class="confetti" style="left: 45%; animation-delay: 2s;"></div>
+    <div class="confetti" style="left: 55%; animation-delay: 2.5s;"></div>
+    <div class="confetti" style="left: 65%; animation-delay: 3s;"></div>
+    <div class="confetti" style="left: 75%; animation-delay: 3.5s;"></div>
+    <div class="confetti" style="left: 85%; animation-delay: 4s;"></div>
+    <div class="confetti" style="left: 95%; animation-delay: 4.5s;"></div>
+
+    <div id="cake-container">
+        <button id="cake"></button>
+        <div id="click-indicator">Tekan 20x hingga tombol berfungsi!</div>
+    </div>
+    <div id="message">
+        <div class="rose"></div>
+        <h1>PIII BETTDAYYY!</h1>
+        <p>CIEEEE 18 TAHUNN NIII, PIII BETTDEYY YAAA!! Semoga Rezekinya melimpah dan juga selalu sehat baik fisik ataupun batinn hehehehee. Gaa kerasaa yaa raisya udahh gedee (umurnya) cuma tingginya ajaa masii kicikk.Intinya semua doa-doa yang baikk aku doain ke kamuu</p>
+        <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMGFsYzAzOGtrYjhidHZucmszd2M5YndmMDM1NXV5Z2h6azN1ajF3diZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ruhRMwYZkcJ8q7QtqV/giphy.gif" alt="Waguri Kaoruko Happy" class="Waguri-Happy-gif" width="300" height="200">
+        <p id="fixed-message">Pesan dari Akuu: "Aku buat web inii karena pada awalnyaa emang udah ada rencana buat bikinin kamu Cheesecake tapi sayangnya kamu tahun ini ultahnya waktu lagi puasa :( jadinya aku buat alternatif ini aja yaa"</p>
+        <button id="show-more">ANOTHER MESSEAGE</button>
+    </div>
+    <div id="interactive-section">
+        <h2>INII DIAA</h2>
+        <!-- GIF animasi kucing kartun happy ditambahkan di sini -->
+        <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Q1NnRhcXozMW0xbTJsYnhndXQya2E3ZXQ4cDUzbDQ3OXY0c3dzMiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MDJ9IbxxvDUQM/giphy.gif" alt="Happy Cartoon Cat" class="happy-cat-gif">
+        <p><strong>SEDIKITT HADIAH UNIKK:</strong> Inii ada sedikit lah aku ngerjain inii, simple sih but i hope you like it <a href="https://drive.google.com/drive/folders/1i47pUGDSoEdP6e8DNFID-9HnHuPhmN2w"a>Buka Disinii yaaww</a>.
+        <p><strong>JANJIII:</strong> Aku janji deh kalo ada waktu bakalan ku buatin Cheesecake buat kamu (semoga ajaa)</p>
+        <button id="close-more">Tutup</button>
+    </div>
+    <audio id="birthday-music" controls>
+    <audio autoplay muted loop></audio>
+        <source src="birthdaysong.mp3" type="audio/ogg">
+        <source src="birthdaysong.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="click-sound" controls>
+        <source src="https://www.soundjay.com/button/sounds/button-1.wav" type="audio/wav"> <!-- Sound effect click -->
+        Browser Anda tidak mendukung elemen audio.
+    </audio>
+
+    <script>
+        let clickCount = 0;
+        const cake = document.getElementById('cake');
+        const indicator = document.getElementById('click-indicator');
+        const message = document.getElementById('message');
+        const interactiveSection = document.getElementById('interactive-section');
+        const showMoreBtn = document.getElementById('show-more');
+        const closeBtn = document.getElementById('close-more');
+        const music = document.getElementById('birthday-music');
+        const clickSound = document.getElementById('click-sound');
+
+        cake.addEventListener('click', () => {
+            clickSound.play(); // Mainkan sound effect click setiap kali diklik
+            clickCount++;
+            const remainingClicks = 20 - clickCount;
+            if (remainingClicks > 0) {
+                indicator.textContent = `Tekan lagi ${remainingClicks}x hingga tombol berfungsi!`;
+            } else {
+                indicator.textContent = 'Tombol Berfungsi!';
+                cake.classList.add('explode');
+                setTimeout(() => {
+                    document.getElementById('cake-container').style.display = 'none';
+                    message.style.display = 'block';
+                    music.play(); // Mainkan musik setelah interaksi
+                }, 1000);
+            }
+        });
+
+        showMoreBtn.addEventListener('click', () => {
+            message.style.display = 'none';
+            interactiveSection.style.display = 'block';
+        });
+
+        closeBtn.addEventListener('click', () => {
+            interactiveSection.style.display = 'none';
+            message.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
